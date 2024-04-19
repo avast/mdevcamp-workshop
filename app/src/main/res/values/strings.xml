@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Github app 6</string>
+    <string name="app_name">Github app</string>
     <string name="btn_submit">Submit</string>
     <string name="txt_username">Username</string>
     <string name="txt_user_not_found">User not found</string>

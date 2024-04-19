@@ -1,4 +1,4 @@
-package com.gendigital.mff.lecture7.search
+package com.gendigital.mff.lecture7.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -8,9 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-/**
- * ViewModel for [SearchFragment].
- */
 class SearchViewModel : ViewModel() {
     /**
      * Saves last searched username.

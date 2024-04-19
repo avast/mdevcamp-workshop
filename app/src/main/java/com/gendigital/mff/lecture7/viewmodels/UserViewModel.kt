@@ -1,7 +1,5 @@
-package com.gendigital.mff.lecture7.user
+package com.gendigital.mff.lecture7.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gendigital.mff.lecture7.data.GithubRepository
@@ -10,8 +8,11 @@ import com.gendigital.mff.lecture7.repository.Repository
 import com.gendigital.mff.lecture7.repository.network.NetworkRepository
 import com.gendigital.mff.lecture7.utils.ViewModelResponseState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.io.IOException
+import kotlinx.coroutines.withContext
 
 class UserViewModel: ViewModel() {
 
@@ -19,21 +20,27 @@ class UserViewModel: ViewModel() {
         NetworkRepository()
     }
 
-    private val _userDetails: MutableLiveData<ViewModelResponseState<UserData>> =
-        MutableLiveData(ViewModelResponseState.Idle)
+    private val _userDetails: MutableStateFlow<ViewModelResponseState<UserData>> =
+        MutableStateFlow(ViewModelResponseState.Idle)
 
-    val userDetails: LiveData<ViewModelResponseState<UserData>>
+    val userDetails: StateFlow<ViewModelResponseState<UserData>>
         get() = _userDetails
 
     fun loadUserDetails(username: String) {
+        _userDetails.update { ViewModelResponseState.Loading }
+
         viewModelScope.launch(Dispatchers.IO) {
             val user = dataRepository.getUser(username)
             val repositories = if (user != null) dataRepository.getUserRepository(username) else null
 
             if (user != null && repositories != null) {
-                _userDetails.postValue(ViewModelResponseState.Success(UserData(user, repositories)))
+                withContext(Dispatchers.Main) {
+                    _userDetails.update { ViewModelResponseState.Success(UserData(user, repositories)) }
+                }
             } else {
-                _userDetails.postValue(ViewModelResponseState.Error)
+                withContext(Dispatchers.Main) {
+                    _userDetails.update { ViewModelResponseState.Error }
+                }
             }
         }
     }

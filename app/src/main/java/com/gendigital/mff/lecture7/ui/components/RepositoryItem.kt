@@ -2,10 +2,9 @@ package com.gendigital.mff.lecture7.ui.components
 
 import android.widget.Toast
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,21 +20,23 @@ import com.gendigital.mff.lecture7.data.User
  * Represents repository item in list of repositories for given user.
  */
 @Composable
-fun RepositoryItem(repository: GithubRepository) {
+fun RepositoryItem(repository: GithubRepository, modifier: Modifier = Modifier) {
     val context = LocalContext.current
 
     Column(
-        modifier = Modifier
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
             .clickable {
-                Toast.makeText(context, repository.full_name, Toast.LENGTH_SHORT).show()
+                Toast
+                    .makeText(context, repository.full_name, Toast.LENGTH_SHORT)
+                    .show()
             }
+            .padding(16.dp)
     ) {
         Text(
             text = repository.name,
             style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(bottom = 8.dp)
         )
 
         Text(
@@ -47,13 +48,13 @@ fun RepositoryItem(repository: GithubRepository) {
 
 @Composable
 @Preview
-fun RepositoryItemPreview() {
+private fun RepositoryItemPreview() {
     RepositoryItem(
         GithubRepository(
             0,
             name = "Preview github repository",
             full_name = "",
-            owner =  User("user", 0, "", "", "", "", "", ""),
+            owner = User("user", 0, "", "", "", "", "", ""),
             private = false,
             description = "Description of this repository goes here"
         )

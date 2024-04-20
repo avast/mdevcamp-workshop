@@ -14,7 +14,7 @@ import com.gendigital.mff.lecture7.R
  * Icon of maximum width 128dp loaded from [url].
  */
 @Composable
-fun UrlImageIcon(url: String) {
+fun UrlImageIcon(url: String, modifier: Modifier = Modifier) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(url)
@@ -23,6 +23,6 @@ fun UrlImageIcon(url: String) {
             .build(),
         contentDescription = null,
         contentScale = ContentScale.Fit,
-        modifier = Modifier.widthIn(0.dp, 128.dp)
+        modifier = modifier.widthIn(0.dp, 128.dp)
     )
 }

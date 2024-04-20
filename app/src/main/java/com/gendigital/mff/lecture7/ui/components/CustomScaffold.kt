@@ -20,9 +20,13 @@ import com.gendigital.mff.lecture7.R
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomScaffold(content: @Composable () -> Unit) {
+fun CustomScaffold(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
     Scaffold(
-        topBar = { TopAppBar(title = { Text(text = stringResource(R.string.app_name)) }) }
+        topBar = { TopAppBar(title = { Text(text = stringResource(R.string.app_name)) }) },
+        modifier = modifier,
     ) { padding ->
         Column(
             modifier = Modifier

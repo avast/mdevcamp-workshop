@@ -30,15 +30,15 @@ fun UserCard(user: User) {
             modifier = Modifier.padding(16.dp)
         ) {
             Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
                     text = user.login,
                     style = MaterialTheme.typography.headlineMedium,
-                    modifier = Modifier.padding(bottom = 16.dp)
                 )
 
-                StarsCount(number = user.publicGists, modifier = Modifier.padding(bottom = 16.dp))
+                StarsCount(number = user.publicGists)
 
                 ClickableLink(user.htmlUrl)
             }

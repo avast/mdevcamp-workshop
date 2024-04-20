@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,26 +15,28 @@ import com.gendigital.mff.lecture7.data.User
 import com.gendigital.mff.lecture7.viewmodels.UserData
 
 @Composable
-fun UserDetail(userData: UserData) {
-    Column {
+fun UserDetail(
+    userData: UserData,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier) {
         UserCard(user = userData.user)
 
         Spacer(modifier = Modifier.height(24.dp))
 
         // Display list of repositories
         LazyColumn {
-            items(userData.repositories.size) { index ->
-                RepositoryItem(userData.repositories[index])
+            items(userData.repositories) { repository ->
+                RepositoryItem(repository)
                 HorizontalDivider()
             }
         }
     }
 }
 
-@ExperimentalMaterial3Api
 @Composable
 @Preview
-fun UserDetailPreview() {
+private fun UserDetailPreview() {
     val user = User("preview-login", 0, "", "", "https://github.com/preview", "", "", "")
 
     UserDetail(

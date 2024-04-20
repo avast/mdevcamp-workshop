@@ -62,7 +62,11 @@ android {
     }
     buildFeatures {
         buildConfig = true
-        viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compiler.get()
     }
 }
 
@@ -84,9 +88,6 @@ dependencies {
     implementation(libs.ktor.serialization.json)
     debugImplementation(libs.okhttp.logging.interceptor)
 
-    implementation (libs.glide)
-    ksp (libs.glide.compiler)
-
     debugImplementation(libs.flipper)
     debugImplementation(libs.soloader)
     debugImplementation(libs.flipper.network.plugin)
@@ -99,4 +100,16 @@ dependencies {
     // Data store
     implementation(libs.androidx.datastore)
 
+    // Compose
+    implementation(libs.androidx.compiler)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.activity.compose)
+    debugImplementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.material3.android)
+
+    // Compose navigation
+    implementation(libs.androidx.navigation.compose)
+
+    // Coil
+    implementation(libs.coil.compose)
 }

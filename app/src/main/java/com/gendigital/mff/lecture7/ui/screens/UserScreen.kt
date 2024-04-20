@@ -3,41 +3,35 @@ package com.gendigital.mff.lecture7.ui.screens
 import android.util.Log
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gendigital.mff.lecture7.ui.components.CustomScaffold
 import com.gendigital.mff.lecture7.ui.components.UserDetail
-import com.gendigital.mff.lecture7.viewmodels.UserViewModel
 import com.gendigital.mff.lecture7.utils.ViewModelResponseState
-import com.gendigital.mff.lecture7.viewmodels.SearchViewModel
+import com.gendigital.mff.lecture7.viewmodels.UserViewModel
 
 /**
  * Represents User detail with list of repositories.
  */
-@ExperimentalMaterial3Api
 @Composable
 fun UserScreen(
     user: String?,
-    viewModel: UserViewModel
+    modifier: Modifier = Modifier,
+    viewModel: UserViewModel = viewModel()
 ) {
-    val userDataResponse by viewModel.userDetails.collectAsState()
+    val userDataResponse = viewModel.userDetails.collectAsState()
 
-    CustomScaffold {
-        when (userDataResponse) {
+    CustomScaffold(modifier) {
+        when (val data = userDataResponse.value) {
             is ViewModelResponseState.Idle -> {
                 user?.let { viewModel.loadUserDetails(it) }
             }
+
             is ViewModelResponseState.Success -> {
-                (userDataResponse as? ViewModelResponseState.Success)
-                    ?.content
-                    ?.let { UserDetail(userData = it) }
+                UserDetail(userData = data.content)
             }
 
             is ViewModelResponseState.Error -> Log.e(TAG, "Error has occurred")

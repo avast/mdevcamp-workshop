@@ -3,7 +3,6 @@ package com.gendigital.mff.lecture7.ui.screens
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,26 +16,41 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gendigital.mff.lecture7.R
-import com.gendigital.mff.lecture7.navigation.Destination
 import com.gendigital.mff.lecture7.ui.components.CustomScaffold
 import com.gendigital.mff.lecture7.viewmodels.SearchViewModel
 
 /**
  * Represents screen for user search.
  */
-@ExperimentalMaterial3Api
 @Composable
 fun SearchScreen(
-    viewModel: SearchViewModel,
-    navController: NavController
+    onSubmitClick: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: SearchViewModel = viewModel(),
 ) {
     val context = LocalContext.current
     val lastUsername by viewModel.getLastUsername(context).collectAsState(initial = null)
+    SearchScreenContent(
+        lastUsername = lastUsername,
+        onSubmitClick = { searchText ->
+            viewModel.saveLastUsername(context, searchText)
+            onSubmitClick(searchText)
+        },
+        modifier = modifier,
+    )
+}
+
+@Composable
+private fun SearchScreenContent(
+    lastUsername: String?,
+    onSubmitClick: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     var searchText by rememberSaveable { mutableStateOf("") }
 
-    CustomScaffold {
+    CustomScaffold(modifier) {
         Text(
             text = if (lastUsername.isNullOrBlank()) {
                 stringResource(R.string.unknown)
@@ -57,8 +71,7 @@ fun SearchScreen(
 
         Button(
             onClick = {
-                viewModel.saveLastUsername(context, searchText)
-                navController.navigate(Destination.UserDetail.createRoute(searchText))
+                onSubmitClick(searchText)
             }
         ) {
             Text(text = stringResource(R.string.btn_submit))
@@ -66,9 +79,8 @@ fun SearchScreen(
     }
 }
 
-@ExperimentalMaterial3Api
 @Preview
 @Composable
-fun SearchScreenPreview() {
-    SearchScreen(SearchViewModel(), NavController(LocalContext.current))
+private fun SearchScreenPreview() {
+    SearchScreenContent(null, { })
 }

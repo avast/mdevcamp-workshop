@@ -2,6 +2,7 @@ package com.gendigital.mff.lecture7.ui.components
 
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.SpanStyle
@@ -14,7 +15,7 @@ import androidx.compose.ui.text.withStyle
  * Simple clickable text containing link.
  */
 @Composable
-fun ClickableLink(url: String) {
+fun ClickableLink(url: String, modifier: Modifier = Modifier) {
     val localUriHandler = LocalUriHandler.current
 
     ClickableText(
@@ -28,6 +29,7 @@ fun ClickableLink(url: String) {
         },
         overflow = TextOverflow.Ellipsis,
         maxLines = 3,
+        modifier = modifier,
     ) {
         localUriHandler.openUri(url)
     }

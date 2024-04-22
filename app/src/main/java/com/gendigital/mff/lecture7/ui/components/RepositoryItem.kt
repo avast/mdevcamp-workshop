@@ -29,7 +29,7 @@ fun RepositoryItem(repository: GithubRepository, modifier: Modifier = Modifier) 
             .fillMaxWidth()
             .clickable {
                 Toast
-                    .makeText(context, repository.full_name, Toast.LENGTH_SHORT)
+                    .makeText(context, repository.fullName, Toast.LENGTH_SHORT)
                     .show()
             }
             .padding(16.dp)
@@ -53,7 +53,7 @@ private fun RepositoryItemPreview() {
         GithubRepository(
             0,
             name = "Preview github repository",
-            full_name = "",
+            fullName = "",
             owner = User("user", 0, "", "", "", "", "", ""),
             private = false,
             description = "Description of this repository goes here"

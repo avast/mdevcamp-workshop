@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import Shared
 
 struct RepositoryScreenView: View {
     var repository: GithubRepository
@@ -18,7 +17,7 @@ struct RepositoryScreenView: View {
                 .font(.title)
             Text(repository.owner.login)
                 .font(.subheadline)
-            Text(repository.description_)
+            Text(repository.description)
             Spacer()
         }.padding()
             .navigationTitle(repository.name)
@@ -26,5 +25,5 @@ struct RepositoryScreenView: View {
 }
 
 #Preview {
-    RepositoryScreenView(repository: InMemoryRepository.companion.AvastRepositories[0])
+    RepositoryScreenView(repository: InMemoryRepository.repositories["avast"]![0])
 }

@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import Shared
 
 struct RepositoryItemView: View {
     var repository: GithubRepository
@@ -16,12 +15,12 @@ struct RepositoryItemView: View {
         VStack(alignment: .leading) {
             Text(repository.name)
                 .font(.title)
-            Text(repository.description_)
+            Text(repository.description)
                 .font(.subheadline)
         }.padding()
     }
 }
 
 #Preview {
-    RepositoryItemView(repository: InMemoryRepository.companion.AvastRepositories[0])
+    RepositoryItemView(repository: InMemoryRepository.repositories["avast"]![0])
 }
